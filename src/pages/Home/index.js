@@ -1,32 +1,45 @@
 import { useEffect, useState } from "react";
 import api from "../../services/api";
+import { Link } from "react-router-dom";
+import "./Home.css";
 
+function Home() {
+  const [filmes, setFilmes] = useState([]);
 
-function Home(){
-    const [filmes, setFilmes] = useState([]);
+  useEffect(() => {
+    async function loadFilmes(params) {
+      const response = await api.get("movie/now_playing", {
+        params: {
+          api_key: "7883136f0ca1dedfe18a2d3c9e3290cb",
+          language: "pt-BR",
+          page: 1,
+        },
+      });
+      //console.log(response.data.results.slice(0, 10));
+      setFilmes(response.data.results.slice(0, 10));
+    }
 
-    useEffect(()=>{
+    loadFilmes();
+  });
 
-        async function loadFilmes(params) {
-            const response = await api.get("movie/now_playing", {
-                params:{
-                    api_key: "7883136f0ca1dedfe18a2d3c9e3290cb",
-                    language: "pt-BR",
-                    page: 1,
-                }
-            })
-
-            console.log(response.data.results);
-        }
-
-        loadFilmes();
-    })
-
-    return(
-        <div>
-            <h1>HOME TESTE</h1>
-        </div>
-    )
+  return (
+    <div className="container">
+      <div className="lista-filmes">
+        {filmes.map((filme) => {
+          return (
+            <article key={filme.id}>
+              <strong>{filme.title}</strong>
+              <img
+                src={`https://image.tmdb.org/t/p/original/${filme.poster_path}`}
+                alt={filme.title}
+              />
+              <Link to={`/filme/${filme.id}`}>Acessar</Link>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
 
 export default Home;
