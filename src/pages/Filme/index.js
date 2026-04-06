@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 
 import api from "../../services/api";
 import "./Filme.css";
+import { toast } from "react-toastify";
 
 function Filme() {
   const { id } = useParams();
@@ -36,6 +37,24 @@ function Filme() {
     };
   }, [navigate, id]);
 
+  function salvarFilme() {
+    const minhaLista = localStorage.getItem("@gadiflix");
+
+    let filmesSalvos = JSON.parse(minhaLista) || [];
+
+    const hasFilme = filmesSalvos.some(
+      (filmeSalvo) => filmeSalvo.id === filme.id,
+    );
+
+    if (hasFilme) {
+      toast.warn("Este filme já está na sua lista.");
+    }
+
+    filmesSalvos.push(filme);
+    localStorage.setItem("@gadiflix", JSON.stringify(filmesSalvos));
+    toast.success("Filme salvo com sucesso!");
+  }
+
   if (loading) {
     return (
       <div className="filme-info">
@@ -56,7 +75,7 @@ function Filme() {
       <strong>Avaliação: {filme.vote_average} / 10</strong>
 
       <div className="area-buttons">
-        <button>Salvar</button>
+        <button onClick={salvarFilme}>Salvar</button>
         <button>
           <a
             href={`https://www.youtube.com/results?search_query=${encodeURIComponent(filme.title + " Trailer")}`}
