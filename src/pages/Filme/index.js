@@ -48,6 +48,7 @@ function Filme() {
 
     if (hasFilme) {
       toast.warn("Este filme já está na sua lista.");
+      return;
     }
 
     filmesSalvos.push(filme);
