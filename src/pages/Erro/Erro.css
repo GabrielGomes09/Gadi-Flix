@@ -1,3 +1,5 @@
+@import "../../styles/variables.css";
+
 .not-found {
   width: 100%;
   height: calc(100vh - 60px);
@@ -5,16 +7,61 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  padding: var(--spacing-lg);
 }
 
 .not-found h1 {
-  font-size: 120px;
+  font-size: clamp(4rem, 20vw, 8rem);
+  color: var(--cor-primaria);
+  margin-bottom: var(--spacing-lg);
+  font-weight: 700;
+}
+
+.not-found p,
+.not-found span {
+  font-size: var(--font-size-lg);
+  color: var(--cor-texto-leve);
+  text-align: center;
+  margin-bottom: var(--spacing-md);
 }
 
 .not-found a {
-  text-decoration: none;
-  background-color: #116feb;
-  color: azure;
-  padding: 10px;
-  margin-top: 14px;
+  background-color: var(--cor-primaria);
+  color: var(--cor-clara);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  margin-top: var(--spacing-lg);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  transition: all var(--transition-fast);
+  display: inline-block;
+}
+
+.not-found a:hover {
+  background-color: var(--cor-destaque);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.not-found a:active {
+  transform: translateY(0);
+}
+
+.not-found a:focus-visible {
+  outline: 2px solid var(--cor-primaria);
+  outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+  .not-found {
+    padding: var(--spacing-md);
+  }
+
+  .not-found h1 {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .not-found p,
+  .not-found span {
+    font-size: var(--font-size-base);
+  }
 }
